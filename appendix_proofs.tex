@@ -1,0 +1,345 @@
+%==============================================================================
+\section{\label{app:scaling}Proof of the scaling reduction}
+%==============================================================================
+
+We prove Lemma~\ref{thm:scaling}.  The generator of Eq.~(\ref{eq:fold}) at frozen $r$ is
+\begin{equation}
+\Leff=\tfrac D2\partial_x^2+(r+x^2)\partial_x .
+\end{equation}
+Substitute $x=\ell y$ with $\ell>0$ to be chosen.  Then $\partial_x=\ell^{-1}\partial_y$ and
+\begin{equation}
+\Leff=\frac{D}{2\ell^2}\partial_y^2+\frac{r+\ell^2y^2}{\ell}\partial_y
+=\frac1\ell\Bigl[\frac{D}{2\ell}\partial_y^2+\bigl(r+\ell^2y^2\bigr)\partial_y\Bigr].
+\end{equation}
+Choosing $\ell$ so that $D/2\ell=\ell^2$, i.e.
+\begin{equation}
+\ell=(D/2)^{1/3},
+\end{equation}
+makes the diffusion coefficient equal to the coefficient of $y^2$, and
+\begin{equation}
+\Leff=\ell\Bigl[\partial_y^2+\bigl(s+y^2\bigr)\partial_y\Bigr],
+\qquad s=\frac{r}{\ell^2}=\frac{r}{(D/2)^{2/3}},
+\end{equation}
+which is Eq.~(\ref{eq:generator}).  The bracket contains no free parameter other than $s$.
+
+Three consequences follow immediately.  \emph{Rates.}  Any eigenvalue of $\Leff$ (or of $\Leff^\ast$) is $\ell$ times the corresponding eigenvalue of the bracket, so $\lambda(r,D)=\ell\tilde\lambda(s)$ with $\tilde\lambda$ universal.  \emph{Densities.}  If $\tilde\rho(y;s)$ is the principal density of the bracketed operator, then $\rho(x;r,D)=\ell^{-1}\tilde\rho(x/\ell;s)$, the prefactor enforcing normalization.  \emph{Information.}  Using $\partial_r=\ell^{-2}\partial_s$ and changing variables $x=\ell y$ in Eq.~(\ref{eq:Idef}),
+\begin{equation}
+\Ifish_r=\int\frac{(\partial_r\rho)^2}{\rho}\dd x
+=\ell^{-4}\int\frac{(\partial_s\tilde\rho)^2}{\tilde\rho}\dd y
+=(D/2)^{-4/3}\Ifish_s(s),
+\end{equation}
+which is Eq.~(\ref{eq:Iscale}).  $\square$
+
+\medskip
+Table~\ref{tab:collapse} verifies the first consequence numerically to eight significant figures over $D\in[0.01125,0.72]$, a range of $64$.  The collapse is exact, not asymptotic: it holds at every $D$, not merely for small $D$.
+
+%==============================================================================
+\section{\label{app:tail}The flux tail and the divergence of moments}
+%==============================================================================
+
+\subsection{Derivation of Eq.~(\ref{eq:tail})}
+
+We prove Proposition~\ref{prop:tail}.  Write Eq.~(\ref{eq:killed}) as a current balance.  Defining
+\begin{equation}
+J(y)=-\tfrac D2\rho'(y)+(s+y^2)\rho(y),
+\end{equation}
+Eq.~(\ref{eq:killed}) reads $\partial_yJ=\lambda\rho$.  Integrating from $-\infty$ to $y$ and using $J(-\infty)=0$,
+\begin{equation}
+\label{eq:Jint}
+J(y)=\lambda\int_{-\infty}^{y}\rho(u)\,\dd u\;\longrightarrow\;\lambda
+\qquad(y\to\infty),
+\end{equation}
+since $\rho$ is normalized.  All probability lost is carried out through $+\infty$ at rate $\lambda$, as the quasi-stationary construction requires.
+
+For large $y$ the drift term dominates the diffusive one: with $\rho$ decaying algebraically (as we are about to confirm), $\rho'/\rho=O(1/y)$ whereas $s+y^2=O(y^2)$, so $\tfrac D2\rho'$ is smaller than $(s+y^2)\rho$ by $O(y^{-3})$.  Neglecting it in Eq.~(\ref{eq:Jint}) gives
+\begin{equation}
+(s+y^2)\rho(y)\simeq\lambda
+\qquad\Longrightarrow\qquad
+\rho(y)\simeq\frac{\lambda}{s+y^2},
+\end{equation}
+which is Eq.~(\ref{eq:tail}); the neglected term is consistent with this solution, since it makes a relative $O(y^{-3})$ correction.  $\square$
+
+\subsection{Consequences and numerical control}
+
+Equation~(\ref{eq:tail}) gives $\rho\sim\lambda y^{-2}$, so $\int^\infty\rho$ converges (the law is normalizable) while $\int^\infty y\rho$ and $\int^\infty y^2\rho$ diverge logarithmically and linearly respectively.  This is Corollary~\ref{cor:moments}.  Numerically, truncating at $y_R$ yields a variance growing as $\lambda y_R$, which is the signature we observe: the ``variance'' of the conditioned law is a linear function of the cutoff with no limiting value.
+
+The tail also controls the numerics.  A computation truncated at $y_R$ omits tail mass
+\begin{equation}
+\label{eq:tailmass}
+\int_{y_R}^\infty\frac{\lambda\,\dd y}{s+y^2}
+=\frac{\lambda}{2\sqrt{|s|}}\,\ln\frac{y_R+\sqrt{|s|}}{y_R-\sqrt{|s|}}
+\simeq\frac{\lambda}{y_R},
+\end{equation}
+which is $1.9$--$2.3\%$ at $y_R=8$--$10$.  Note that $s<0$ throughout, so the integrand is $\lambda/(y^2-|s|)$ and the antiderivative is logarithmic; the arctangent that would appear for $s>0$ is wrong here by up to $2\%$ of the tail term.  This mass is included analytically in the normalization of every density reported here; omitting it entirely biases the flux-tail ratios high by ${\sim}1.7\%$ at $y=5$.
+
+For the Fisher information the tail is best handled by a change of variable, which makes the correction obvious and fixes its form.  Compactify the line by $y=\tan\theta$.  Then $\rho\,\dd y=P\,\dd\theta$ with $P(\theta)=\rho(\tan\theta)\sec^2\theta$, and the Jacobians cancel exactly:
+\begin{equation}
+\label{eq:thetaform}
+\Ifish_s=\int_{-\infty}^{\infty}\frac{(\partial_s\rho)^2}{\rho}\,\dd y
+=\int_{-\pi/2}^{\pi/2}\frac{(\partial_sP)^2}{P}\,\dd\theta .
+\end{equation}
+Equation~(\ref{eq:tail}) says $\rho\to\lambda/(s+y^2)$, so $P\to\lambda$ and $\partial_sP\to\lambda'$ as $\theta\to\pi/2$: in this variable the integrand approaches the \emph{constant} $\lambda'^2/\lambda$ on a \emph{finite} interval.  The piece omitted by truncating at $y_R$ is therefore simply that constant times the remaining angle,
+\begin{equation}
+\label{eq:fishertail}
+\int_{y_R}^{\infty}\frac{(\partial_s\rho)^2}{\rho}\,\dd y
+=\frac{\lambda'(s)^2}{\lambda(s)}\arctan\frac{1}{y_R}
+=\frac{\lambda'^2}{\lambda\,y_R}+O(y_R^{-3}).
+\end{equation}
+Adding Eq.~(\ref{eq:fishertail}) and removing the residual by Richardson gives $\Ifish_s(0)=0.48752$, stable to $5\times10^{-5}$ across the windows $(y_R,y_R')=(12,20)$, $(16,24)$, $(20,32)$.  Extrapolation is still needed: the remaining error is not the tail but the subleading $O(y_R^{-2})$ term in $\rho$ itself, which Eq.~(\ref{eq:thetaform}) does not remove.  Two cautions attach.
+
+First, the Dirichlet wall defining the killed operator must be held \emph{fixed and far} while only the integration limit is varied.  Equation~(\ref{eq:fishertail}) presumes the flux tail holds up to $y_R$; a wall placed \emph{at} $y_R$ instead forces $\rho(y_R)=0$ and suppresses the density throughout a boundary layer --- at $y_R=16$ the density at $y=16$ is a factor ${\sim}24$ below its converged value, though $\lambda$ itself is unaffected to eight digits --- so the full tail is then added on top of an integrand that has already lost that mass.  With the wall at $y=50$ the tail-corrected sequence \emph{descends} to its limit; it is the \emph{raw} sequence that ascends.
+
+Second, the differencing step $\dd s$ must be absolute rather than proportional to $|s|$, or $s=0$ cannot be evaluated at all.  A proportional step forces the plateau to be read at a proxy: $s=-0.008$ gives $0.48839$, a correct value of $\Ifish_s(-0.008)$ and a $0.2\%$ overestimate of $\Ifish_s(0)$.
+
+%==============================================================================
+\section{\label{app:kramers}Escape rate, hazard integral and horizon}
+%==============================================================================
+
+\subsection{Barrier and curvatures}
+
+In scaled units ($k_BT=D/2=1$) the drift $s+y^2$ derives from $U(y)=-(sy+y^3/3)$, so $U'(y)=-(s+y^2)$ and $U''(y)=-2y$.  The extrema are $y=\mp\sqrt{|s|}$ for $s<0$: a minimum at $y_a=-\sqrt{|s|}$ with $U''(y_a)=+2\sqrt{|s|}$, and a maximum at $y_b=+\sqrt{|s|}$ with $U''(y_b)=-2\sqrt{|s|}$.  The barrier is
+\begin{equation}
+\Delta U=U(y_b)-U(y_a)
+=2\Bigl[|s|^{3/2}-\tfrac13|s|^{3/2}\Bigr]=\tfrac43|s|^{3/2},
+\end{equation}
+which is Eq.~(\ref{eq:barrier}).  Substituting into the Kramers formula for overdamped escape~\cite{Kramers1940,Hanggi1990},
+$\lambda=\sqrt{U''(y_a)|U''(y_b)|}\,e^{-\Delta U/k_BT}/2\pi$, and using the equality of the two curvatures, gives Eq.~(\ref{eq:kramers}).
+
+\subsection{Accuracy against the exact eigenvalue}
+
+\begin{table}[b]
+\caption{\label{tab:kramers}%
+Kramers' formula Eq.~(\ref{eq:kramers}) against the exact quasi-stationary eigenvalue.  The ratio crosses unity near $|s|\simeq0.93$: below that the formula \emph{under}estimates the rate, because its $\sqrt{|s|}$ prefactor vanishes at threshold while the exact rate does not.}
+\begin{ruledtabular}
+\begin{tabular}{lrrr}
+\hline
+$|s|$ & $\lambda$ (eigenvalue) & $\lambda$ (Kramers) & ratio \\
+\hline
+$0.2$ & $2.764\times10^{-1}$ & $1.264\times10^{-1}$ & $0.457$ \\
+$0.3$ & $2.423\times10^{-1}$ & $1.400\times10^{-1}$ & $0.578$ \\
+$0.4$ & $2.114\times10^{-1}$ & $1.437\times10^{-1}$ & $0.680$ \\
+$0.5$ & $1.834\times10^{-1}$ & $1.405\times10^{-1}$ & $0.766$ \\
+$0.61$ & $1.557\times10^{-1}$ & $1.317\times10^{-1}$ & $0.846$ \\
+$0.8$ & $1.154\times10^{-1}$ & $1.097\times10^{-1}$ & $0.950$ \\
+$0.9$ & $9.767\times10^{-2}$ & $9.673\times10^{-2}$ & $0.990$ \\
+$1.0$ & $8.208\times10^{-2}$ & $8.391\times10^{-2}$ & $1.022$ \\
+$1.5$ & $3.083\times10^{-2}$ & $3.366\times10^{-2}$ & $1.092$ \\
+$2.0$ & $9.534\times10^{-3}$ & $1.036\times10^{-2}$ & $1.087$ \\
+$2.5$ & $2.426\times10^{-3}$ & $2.588\times10^{-3}$ & $1.067$ \\
+$3.0$ & $5.148\times10^{-4}$ & $5.402\times10^{-4}$ & $1.049$ \\
+$4.0$ & $1.441\times10^{-5}$ & $1.484\times10^{-5}$ & $1.030$ \\
+$5.0$ & $2.342\times10^{-7}$ & $2.389\times10^{-7}$ & $1.020$ \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+Table~\ref{tab:kramers} shows the ratio approaching unity as the barrier grows, as it must: Kramers' formula is the leading term of an asymptotic expansion in $1/\Delta U$.  It is deliberately extended below $|s|=1$, because that is where the formula's behavior changes character: a table stopping at $|s|=1.0$, ratio $1.022$, would display it at its most flattering.  \emph{The ratio crosses unity near $|s|\simeq0.93$ and Kramers' formula then \emph{under}estimates the rate}, by a factor $1.18$ at $|s|=0.61$ and $2.2$ at $|s|=0.2$: the $\sqrt{|s|}$ prefactor vanishes at threshold whereas the exact rate does not (Sec.~\ref{sec:foldloc}).  The error is therefore not merely larger at small barrier but of the opposite sign to the $8.7\%$ overestimate at $|s|=2$, and the two have a cancellation point.  This matters twice over.  It is why the closed-form and exact-eigenvalue horizons agree to $0.15\%$ at $\Sig=0.122$ in Sec.~\ref{sec:sat}\,C --- the Kramers error is negligible there, so the discrepancy with simulation is entirely the adiabatic lag --- and it is why the barrierless regime requires the scaling theory of Ref.~\cite{HathcockSethna2021} rather than a corrected prefactor.  The non-monotonicity between $|s|\approx1$ and $2$ reflects the breakdown of the separation between well and barrier when $\Delta U\lesssim1$, where the notion of an escape rate itself becomes marginal.  As a consistency check, the $|s|=2$ entry agrees with the independently computed scaling collapse of Table~\ref{tab:collapse} ($0.00953406$) to four digits.
+
+\subsection{The hazard integral is exact}
+
+Under the quasi-static description the survival probability along the ramp obeys
+\begin{equation}
+\frac{\dd\ln P}{\dd s}=-\frac{\lambda(s)}{\Sig},
+\qquad \Sig=\frac{2\varepsilon}{D},
+\end{equation}
+so the hazard accumulated on approach to $|s|$ from far away is
+\begin{equation}
+H(|s|)=\frac{1}{\Sig}\int_{|s|}^{\infty}\lambda(u)\,\dd u
+=\frac{1}{\pi\,\Sig}\int_{|s|}^{\infty}\sqrt u\;e^{-\frac43u^{3/2}}\dd u .
+\end{equation}
+Substitute $w=\tfrac43u^{3/2}$.  Then $\dd w=2\sqrt u\,\dd u$, i.e.\ $\sqrt u\,\dd u=\tfrac12\dd w$, and the integral becomes elementary:
+\begin{equation}
+H=\frac{1}{\pi\,\Sig}\cdot\frac12\int_{\frac43|s|^{3/2}}^{\infty}e^{-w}\dd w
+=\frac{e^{-\frac43|s|^{3/2}}}{2\pi\,\Sig},
+\end{equation}
+which is Eq.~(\ref{eq:hazard}).  We stress that this step introduces \emph{no} error: the $\sqrt u$ of the Kramers prefactor is exactly the Jacobian of the substitution that linearizes the exponent.  Every discrepancy in Table~\ref{tab:horizon} is therefore attributable to Eq.~(\ref{eq:kramers}) alone.
+
+\subsection{Inversion, and the physical form}
+
+Setting $H=\ln2$ and solving,
+\begin{equation}
+e^{-\frac43|s_h|^{3/2}}=2\pi\ln2\,\Sig
+\quad\Longrightarrow\quad
+\tfrac43|s_h|^{3/2}=\ln\frac{1}{2\pi\ln2\,\Sig},
+\end{equation}
+giving Eq.~(\ref{eq:horizon_s}).  Substituting $\Sig=2\varepsilon/D$ and $|r_h|=|s_h|(D/2)^{2/3}$,
+\begin{equation}
+|r_h|=(D/2)^{2/3}\Bigl[\tfrac34\ln\frac{D}{4\pi\ln2\,\varepsilon}\Bigr]^{2/3}
+=\Bigl[\tfrac38D\ln\frac{D}{4\pi\ln2\,\varepsilon}\Bigr]^{2/3},
+\end{equation}
+which is Eq.~(\ref{eq:horizon_r}).  Differentiating Eq.~(\ref{eq:horizon_s}) at fixed $D$ gives Eq.~(\ref{eq:exponent}), $\dd|s_h|^{3/2}/\dd\ln(1/\varepsilon)=3/4$, a prediction independent of the prefactor and therefore a sharper test of the derivation than the horizon value itself; the numerics give $0.755$.
+
+\subsection{Remark: the exact quadrature behind Kramers}
+
+For one-dimensional overdamped escape the mean first-passage time is given exactly by the Pontryagin double quadrature, which in these units reads
+\begin{equation}
+\label{eq:pontryagin}
+\tau=\int^{\infty}\!\!\dd y\;e^{-(sy+y^3/3)}\int_{-\infty}^{y}\!\!\dd z\;e^{sz+z^3/3},
+\end{equation}
+with $\lambda\simeq1/\tau$ up to corrections that vanish with the barrier.  The inner integral is Airy-class: substituting $z=-t$,
+\begin{equation}
+\int_{-\infty}^{y}e^{sz+z^3/3}\dd z=\int_{-y}^{\infty}e^{-t^3/3-st}\dd t,
+\end{equation}
+\begin{equation}
+\int_{0}^{\infty}e^{-t^3/3-st}\dd t=\pi\,\mathrm{Hi}(-s),
+\end{equation}
+with $\mathrm{Hi}$ the Scorer function~\cite[\S9.12]{DLMF}.  Equation~(\ref{eq:kramers}) is the saddle-point evaluation of this object.  We do not use the exact form because it does not integrate in closed form against the ramp, so replacing Eq.~(\ref{eq:kramers}) by Eq.~(\ref{eq:pontryagin}) would improve the rate at the cost of the closed-form hazard --- and hence of the closed-form horizon, which is the result of interest.
+
+\subsection{\label{app:identity}Equivalence with Ref.~\cite{HerbertBouchet2017}}
+
+The correspondence asserted in Eq.~(\ref{eq:dictionary}) is an algebraic identity, not a numerical coincidence, and we verify it here.  Reference~\cite{HerbertBouchet2017} writes the fold with unit ramp rate, $\dd x=(x^2+t)\dd t+\sqrt{2\epsilon_{\mathrm{HB}}}\,\dd W$, and obtains a survival probability $\exp[-H_{\mathrm{HB}}]$ with
+\begin{equation}
+\label{eq:hb_hazard}
+H_{\mathrm{HB}}=\frac{\epsilon_{\mathrm{HB}}}{2\pi}\,e^{-4|t|^{3/2}/3\epsilon_{\mathrm{HB}}} .
+\end{equation}
+Write the scaled process of Lemma~\ref{thm:scaling} as $\dd y=(s+y^2)\dd\tau+\sqrt2\,\dd W$ with $\dd s/\dd\tau=\Sig$, and set $y=ax$, $t=b\tau$ --- equivalently $x=y/a$, but we write the substitution in the direction the algebra below uses.  Then
+\begin{equation}
+\dd y=\Bigl[\frac{y^2}{ab}+\frac{as}{b}\Bigr]\dd t+\frac{a\sqrt2}{\sqrt b}\,\dd W_t ,
+\end{equation}
+so matching the quadratic coefficient gives $ab=1$; matching the ramp term, with $s=\Sig\,\tau$ and $t=b\tau$, gives $a^2\,\Sig=1/a$, i.e.\ $a^3=1/\Sig$; and the diffusion coefficient is then $a\sqrt{2}/\sqrt b=a^{3/2}\sqrt2=\sqrt{2\epsilon_{\mathrm{HB}}}$, so that
+\begin{equation}
+\label{eq:epshb}
+\epsilon_{\mathrm{HB}}=a^3=\frac{1}{\Sig}=\frac{D}{2\varepsilon}.
+\end{equation}
+Note that $\epsilon_{\mathrm{HB}}$ is the \emph{reciprocal} of $\Sig$: their large-noise regime is our slow-ramp regime.  With $|t|^{3/2}=|s|^{3/2}/\Sig$ and Eq.~(\ref{eq:epshb}), Eq.~(\ref{eq:hb_hazard}) becomes
+\begin{equation}
+H_{\mathrm{HB}}
+=\frac{1}{2\pi\,\Sig}\,\exp\!\Bigl[-\frac{4}{3}\,\frac{|s|^{3/2}}{\Sig}\,\Sig\Bigr]
+=\frac{1}{2\pi\,\Sig}\,e^{-\frac43|s|^{3/2}},
+\end{equation}
+with no residual $D$ and no appeal to a particular choice of units.  This is Eq.~(\ref{eq:hazard}) exactly.  The two hazards are therefore the same function written in two variables, and the only difference between Eq.~(\ref{eq:horizon_s}) and Eq.~(5) of Ref.~\cite{HerbertBouchet2017} is the $\ln2$ introduced by defining the horizon at the median rather than the mean.
+
+%==============================================================================
+\section{\label{app:lag}Adiabatic perturbation theory}
+%==============================================================================
+
+\subsection{Setup}
+
+Let $\Leff_s$ denote the frozen-$s$ generator of the bracket in Eq.~(\ref{eq:generator}) and $\Leff^\ast_s$ its formal adjoint, so that the quasi-stationary density satisfies $\Leff^\ast_s\rho=-\lambda\rho$.  Let $\phi$ be the corresponding left eigenfunction, $\Leff_s\phi=-\lambda\phi$, normalized by
+\begin{equation}
+\label{eq:norm}
+\langle\phi,\rho\rangle\equiv\int\phi\rho\,\dd y=1 .
+\end{equation}
+Under the ramp the true (unnormalized) density $\nu(y,\tau)$ obeys $\partial_\tau\nu=\Leff^\ast_{s(\tau)}\nu$ with $\dd s/\dd\tau=\Sig$.
+
+\subsection{Expansion and solvability}
+
+Seek a solution slaved to the instantaneous $s$,
+\begin{equation}
+\nu=N(\tau)\bigl[\rho(s)+\Sig\,\rho_1(s)+O(\Sig^2)\bigr],
+\qquad \int\rho_1\,\dd y=0,
+\end{equation}
+with the decay rate likewise expanded,
+\begin{equation}
+\frac{\dd\ln N}{\dd\tau}=-\lambda(s)-\Sig\,\mu_1(s)+O(\Sig^2).
+\end{equation}
+Substituting and collecting orders, $O(1)$ reproduces the eigenvalue problem.  At $O(\Sig)$, using $\partial_\tau=\Sig\,\partial_s$ on the slaved density,
+\begin{equation}
+\label{eq:order1}
+(\Leff^\ast+\lambda)\rho_1=\partial_s\rho-\mu_1\rho .
+\end{equation}
+The operator $\Leff^\ast+\lambda$ is singular: its kernel contains $\rho$, and the kernel of its adjoint $\Leff+\lambda$ contains $\phi$.  By the Fredholm alternative, Eq.~(\ref{eq:order1}) is solvable if and only if the right-hand side is orthogonal to $\phi$:
+\begin{equation}
+\langle\phi,\partial_s\rho\rangle-\mu_1\langle\phi,\rho\rangle=0 .
+\end{equation}
+With the normalization~(\ref{eq:norm}) this determines $\mu_1$ uniquely,
+\begin{equation}
+\mu_1(s)=\langle\phi,\partial_s\rho\rangle,
+\end{equation}
+which is Eq.~(\ref{eq:mu1}).  Integrating the correction to the decay rate along the ramp gives
+$\ln(P/P_{\mathrm{ad}})=-\int\mu_1\dd s'$, the second half of Eq.~(\ref{eq:mu1}).  $\square$
+
+\subsection{Hellmann--Feynman validation}
+
+Equation~(\ref{eq:mu1}) depends on the left eigenfunction and on the normalization~(\ref{eq:norm}), neither of which is directly observable, so an independent identity is valuable.  Differentiating $\Leff_s\phi=-\lambda\phi$ with respect to $s$, pairing with $\rho$, and using $\Leff^\ast\rho=-\lambda\rho$ to eliminate the $\partial_s\phi$ term in the standard way gives
+\begin{equation}
+\lambda'(s)=-\langle\rho,\partial_s\Leff\,\phi\rangle/\langle\phi,\rho\rangle .
+\end{equation}
+For the bracket of Eq.~(\ref{eq:generator}) one has $\partial_s\Leff=\partial_y$ exactly, so
+\begin{equation}
+\lambda'(s)=-\langle\rho,\partial_y\phi\rangle,
+\end{equation}
+which is Eq.~(\ref{eq:hf}).  The left- and right-hand sides are computed by entirely different routes --- the left by finite differences of eigenvalues, the right by an inner product of eigenfunctions --- and agree to better than $0.11\%$ over $s\in[-2,-0.1]$, the agreement being closest near threshold ($2\times10^{-5}\%$ at $s=-0.1$) and loosest at $s=-2$, where $\lambda'$ is smallest and the finite difference least accurate.  This validates $\phi$, the normalization, and the quadrature scheme simultaneously.  We note that the check has content only because $\phi$ is obtained from the transposed operator and $\langle\phi,\rho\rangle=1$ imposed explicitly; in the symmetric conjugate representation the normalization is automatic and the identity cannot fail.
+
+\subsection{Numerical values and convergence}
+
+The ratio $-\mu_1/\lambda'$ is $1.11\pm0.08$ over $s\in[-2,-0.1]$, drifting by about $21\%$ across the range ($1.240$ at the far end to $1.025$ at the near end).  We therefore present Eq.~(\ref{eq:taueff}) as an approximation with a stated error, not as an identity.
+
+Convergence must be checked on two axes, and the second is the one that matters.  In the differencing step, at $s=-0.5$, $N=40000$ and cutoff $y_R=15$, $\mu_1=-0.288944$, $-0.288950$, $-0.288951$ for $h_s/|s|=0.04$, $0.02$, $0.01$: converged to six figures.  In the cutoff, $\mu_1=-0.288445$, $-0.288698$, $-0.288836$, $-0.288950$, $-0.289039$ for $y_R=8$, $10$, $12$, $15$, $20$, approaching its limit as $O(1/y_R)$ and extrapolating to
+\begin{equation}
+\mu_1(-0.5)=-0.2895(5),
+\end{equation}
+the uncertainty being the spread across extrapolation windows.  The $1/y_R$ approach is inherited from the flux tail of $\rho$: the normalization of $\rho$ must include the analytic tail mass beyond $y_R$, and if it does not, $\mu_1$ drifts by $6\%$ over the same range of $y_R$ instead of $0.2\%$ and does not converge at all.  A convergence study in $h_s$ alone is insensitive to this and will report six-figure agreement either way.  The $\phi$-weighted inner products need no such correction, because $\phi$ vanishes at the killing boundary.
+
+%==============================================================================
+\section{\label{app:cmf}Center-manifold reduction in $n$ dimensions}
+%==============================================================================
+
+This appendix derives Eq.~(\ref{eq:reduction}) and states the conditions under which the horizon formula transfers from the normal form to a multidimensional system.
+
+\subsection{Reduction of the deterministic part}
+
+Let $\dot X=F(X,\mu)$ with $X\in\mathbb{R}^n$ possess a saddle-node at $(X_c,\mu_c)$: $F(X_c,\mu_c)=0$ and the Jacobian $J=\partial_XF$ has a simple zero eigenvalue with the remaining $n-1$ eigenvalues bounded away from the imaginary axis.  Let $e$ and $f$ be the right and left null vectors, $Je=0$ and $f^{\mathsf T}J=0$, normalized so that $f^{\mathsf T}e=1$.
+
+Write $X=X_c+ze+X_\perp$ with $f^{\mathsf T}X_\perp=0$, so that $z=f^{\mathsf T}(X-X_c)$.  Projecting the flow with $f^{\mathsf T}$ and expanding to second order in $z$ and first order in $\delta\mu=\mu-\mu_c$,
+\begin{equation}
+\dot z=a\,\delta\mu+b\,z^2+O(z^3,\,z\,\delta\mu,\,\delta\mu^2),
+\end{equation}
+with $a$ and $b$ as in Eq.~(\ref{eq:ab}).  On the center manifold $X_\perp=O(z^2)$, so its feedback into $\dot z$ enters at $O(z^3)$ and is subdominant.  The retained balance is $a\,\delta\mu\sim b\,z^2$, giving $z=O(\sqrt{|\delta\mu|})$; the neglected $z\,\delta\mu$ term is then $O(|\delta\mu|^{3/2})$ against the retained $O(|\delta\mu|)$, hence subdominant as claimed.
+
+Setting $x=bz$ converts this to $\dot x=r+x^2$ with $r=ab\,\delta\mu$, matching Eq.~(\ref{eq:fold}) with unit coefficient on $x^2$.
+
+\subsection{Reduction of the noise}
+
+Let the noise be $\Sigma\,\dd W$ with $\Sigma\in\mathbb{R}^{n\times m}$ and $W$ an $m$-dimensional Wiener process.  Projecting, $\dd z=f^{\mathsf T}\dd X$ acquires the scalar noise coefficient $f^{\mathsf T}\Sigma$, hence diffusion
+\begin{equation}
+D_z=f^{\mathsf T}\Sigma\Sigma^{\mathsf T}f ,
+\end{equation}
+and under $x=bz$,
+\begin{equation}
+D_{\mathrm{eff}}=b^2\,f^{\mathsf T}\Sigma\Sigma^{\mathsf T}f ,
+\end{equation}
+which is Eq.~(\ref{eq:reduction}).  Note that the projection is by the \emph{left} null vector: the applied variance is filtered by the direction in which the slow mode is sensitive, not by the direction in which it moves.
+
+\subsection{Invariance}
+
+The normalization of $e$ is arbitrary.  Under $e\to ke$ the constraint $f^{\mathsf T}e=1$ forces $f\to f/k$, whence $a\to a/k$ and $b\to kb$ (the latter because $D^2F[ke,ke]=k^2D^2F[e,e]$).  Therefore
+\begin{equation}
+P=ab\;\mapsto\;P,
+\qquad
+D_{\mathrm{eff}}=b^2f^{\mathsf T}\Sigma\Sigma^{\mathsf T}f\;\mapsto\;D_{\mathrm{eff}},
+\end{equation}
+both invariant, as any physical quantity must be.  This is verified numerically to ten digits for $k=0.37,\,2.9,\,-1.4$ in Sec.~\ref{sec:stommel}.
+
+\subsection{Validity}
+
+The reduction requires a timescale separation between the center mode, which relaxes at rate $2\sqrt{|r|}\to0$, and the transverse modes, which relax at rates $|\lambda_\perp|=O(1)$.  Corrections to the reduced dynamics are $O(\sqrt{|r|}/|\lambda_\perp|)$.  At the horizon of the application in Sec.~\ref{sec:stommel} this ratio is $0.0902/2.4758$, a separation of $27$, and the observed reduction error is $1.0$--$1.5\%$, consistent with that estimate.
+
+%==============================================================================
+\section{\label{app:num}Numerical methods}
+%==============================================================================
+
+\subsection{Eigenproblem}
+
+The forward operator of Eq.~(\ref{eq:killed}) is discretized by second-order central differences on a uniform grid $y\in[-L,y_R]$ with $N$ points, homogeneous Dirichlet conditions at both ends, and the principal eigenpair extracted by shift-invert Arnoldi about $\sigma=0$.  The resulting matrix is non-symmetric.
+
+We deliberately do \emph{not} use the Schr\"odinger conjugation $\rho=e^{(sy+y^3/3)/D}g$ to obtain $\rho$, although it symmetrizes the problem and is the natural choice for $\lambda$ alone.  The reason is numerical, not aesthetic.  At large $y$ the true amplitude $g\sim e^{-y^3/3D}$ falls below the eigensolver's relative accuracy; the conjugating factor $e^{+y^3/3D}$ then amplifies what is left, which is pure roundoff.  The reconstructed density is meaningless beyond $y\approx5$--$6$, and quantities sensitive to the tail --- the Fisher information above all --- acquire errors of many orders of magnitude.  Working directly in $\rho$ is well conditioned, because $\rho$ decays only algebraically, as the flux tail~(\ref{eq:tail}).  Where both routes are valid they agree on $\lambda$ to $10^{-7}$.
+
+Normalization includes the analytic tail mass of Eq.~(\ref{eq:tailmass}).  The Fisher information~(\ref{eq:Idef}) is evaluated without logarithms, since $\rho$ carries roundoff-level negative values in the far-left classically forbidden region which a logarithm would amplify; the integrand is set to zero where $\rho\le0$.  Insensitivity to the left cut is verified over $y_L\in[-6,-4]$ and convergence in $y_R$ over $[4,12]$, with extrapolation as described in Appendix~\ref{app:tail}.
+
+\subsection{Simulation}
+
+Trajectories of Eq.~(\ref{eq:fold}) are integrated by Euler--Maruyama with killing on first passage above a threshold $Y$.  Three points of method are worth recording, each of which changes the answer if got wrong.
+
+\emph{Error bars from independent batches.}  Uncertainties are standard errors over $\ge6$ independent batches, each with its own random stream spawned from a fixed root seed.  An earlier estimator formed from splitting a single ensemble in half is a one-degree-of-freedom statistic on correlated halves; it varied over three orders of magnitude across statistically identical runs and produced spurious $7\sigma$ discrepancies.  With proper batching, all comparisons of Sec.~\ref{sec:num} satisfy $|z|\le0.95$.
+
+\emph{Threshold insensitivity under common random numbers.}  The escape threshold is scanned by recording first-passage times to several thresholds along the \emph{same} trajectory ensemble, which removes the sampling noise that would otherwise dominate the comparison.  Results are insensitive over $Y\in[5,13]$.
+
+\emph{Bounded observables for autocorrelation.}  Because the conditioned law has infinite variance (Corollary~\ref{cor:moments}), the autocorrelation function of $y$ itself is undefined.  Relaxation is therefore measured with bounded observables --- $\arctan y$ and $\mathbf{1}\{y<0\}$ --- whose integrated autocorrelation times both track the spectral gap, as they must for any bounded observable.
+
+Halving the step produces no systematic trend --- the residuals change sign --- so discretization bias is consistent with zero and bounded by the ${\approx}1\%$ statistical resolution of these runs; the bias from boundary crossing between recorded steps is estimated at $\sim10^{-6}$ and neglected.
+
+\subsection{The two-box application}
+
+The fold of Eq.~(\ref{eq:stommel}) is located by reducing the equilibrium condition to a scalar equation in $q=T-S$ and solving $\dd\eta_2/\dd q=0$ by bisection to machine precision; the residual $|F|$ is $4\times10^{-16}$ and the small Jacobian eigenvalue is $2\times10^{-11}$.  Because Eq.~(\ref{eq:stommel}) is quadratic, $D^2F$ is constant and $b$ is available in closed form; it is cross-checked against the explicit contraction $\tfrac12f^{\mathsf T}D^2F[e,e]$ (agreement to machine precision) and against a finite-difference second derivative (relative agreement $3\times10^{-6}$).
+
+The full two-dimensional system is integrated with the same Euler--Maruyama scheme and the escape criterion applied in the normal-form coordinate $x=bf^{\mathsf T}(X-X_c)$, so that the threshold has the same meaning as in the one-dimensional runs.  Dead paths are frozen at the fold point to prevent re-entry.  Robustness to time step, threshold and ramp start is reported in Sec.~\ref{sec:stommel}; the positivity of $q$ throughout confirms that the smooth branch of Eq.~(\ref{eq:stommel}) --- on which the transport term is differentiable --- is never left.
