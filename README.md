@@ -3,7 +3,7 @@
 Snapshot information, escape, and the observability horizon.
 
 This repository contains the LaTeX source and the code used to derive and
-verify every quantitative claim in the paper (submitted to Physical Review E).
+verify every quantitative claim in the paper (submitted to Chaos).
 
 ## Contents
 
